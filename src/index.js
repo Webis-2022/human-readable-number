@@ -35,12 +35,25 @@ module.exports = function toReadable (number) {
     '80' : 'eighty', 
     '90' : 'ninety'
   };
-  
+
   if (number.toString().length === 3) {
     firstWord = firstObj[firstNum];
   
   let twoLastNumbers = number.toString().slice(1);
-  if(Number(twoLastNumbers) < 20) {
+  let secondNum = number.toString()[1];
+  let lastNumber = number.toString()[2];
+  
+  thirdWord = firstObj[Number(lastNumber)];
+  let lastNum = number.toString().slice(2);
+  
+  if (Number(secondNum) === 0 && Number(lastNum) === 0) {
+      return `${firstWord} hundred`;
+  }
+  else if (Number(lastNum) === 0 && Number(twoLastNumbers) >= 20) {
+      secondWord = secondObj[Number(twoLastNumbers)];
+      return `${firstWord} hundred ${secondWord}`
+  }
+  else if(Number(twoLastNumbers) < 20 ) {
       secondWord = firstObj[Number(twoLastNumbers)];
       return `${firstWord} hundred ${secondWord}`
   }
@@ -48,20 +61,23 @@ module.exports = function toReadable (number) {
       const secondNum = number.toString()[1];
       const fullSecondNum = secondNum + '0'
       secondWord = secondObj[Number(fullSecondNum)];
+      let lastNumber = number.toString().slice(2);
+      thirdWord = firstObj[Number(lastNumber)];
+      return `${firstWord} hundred ${secondWord} ${thirdWord}`;
   }
-  let lastNumber = number.toString().slice(2);
-  thirdWord = firstObj[Number(lastNumber)];
-  
-  return `${firstWord} hundred ${secondWord} ${thirdWord}`;
   }
   if (number.toString().length === 2) {
       if(number < 20) {
           return firstObj[number];
       }
+      else if (Number(number.toString()[1]) === 0 && number >= 20) {
+          return `${secondObj[number.toString()]}`
+      }
       else {
           const num = number.toString()[0];
           const fullNum = num + '0';
           firstWord = secondObj[Number(fullNum)];
+          
       }
       lastNumber = number.toString().slice(1);
       secondWord = firstObj[Number(lastNumber)];
@@ -73,9 +89,6 @@ module.exports = function toReadable (number) {
   }
   
 }
-
-
-
 
 
   
